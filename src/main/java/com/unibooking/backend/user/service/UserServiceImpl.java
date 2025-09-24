@@ -1,53 +1,42 @@
 package com.unibooking.backend.user.service;
 
+import com.unibooking.backend.Exception.UserAlreadyExistsException;
+import com.unibooking.backend.Exception.UserNotFoundException;
 import com.unibooking.backend.user.dto.*;
+import com.unibooking.backend.user.model.UserModel;
+import com.unibooking.backend.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
+    private final UserRepository userRepository;
+
     @Override
-    public UserDTO getCurrentUserProfile() {
-        UserDTO user = new UserDTO();
-        user.setId(22L);
-        user.setName("eli");
-        user.setEmail("eliyasmathew@unibook.com");
-        return user;
+    public Optional<UserModel> getCurrentUserProfile(String email) throws UserNotFoundException {
+        try{
+            return userRepository.findByUserEmail(email);
+        }catch(Exception e){
+            throw new UserNotFoundException("Unable to fetch user!");
+        }
     }
 
     @Override
-    public List<ProviderDTO> searchProviders(String keyword) {
-        return List.of();
+    public Boolean createUserProfile(UserDTO userDTO) throws UserAlreadyExistsException{
+        if(userRepository.findByUserEmail(userDTO.getEmail()).isPresent()){
+            throw new UserAlreadyExistsException("Email already registered: " + userDTO.getEmail());
+        }
+        UserModel userModel = new UserModel();
+        userModel.setUserEmail(userDTO.getEmail());
+        userModel.setUserName(userDTO.getName());
+        userModel.setUserPhone(userDTO.getPhone());
+        UserModel savedUser = userRepository.save(userModel);
+        return true;
     }
 
-    @Override
-    public ProviderDTO getProviderDetails(Long providerId) {
-        return null;
-    }
-
-    @Override
-    public List<SlotDTO> getAvailableSlots(Long providerId) {
-        return List.of();
-    }
-
-    @Override
-    public BookingDTO bookSlot(Long providerId, Long slotId) {
-        return null;
-    }
-
-    @Override
-    public List<BookingDTO> getUserBookings() {
-        return List.of();
-    }
-
-    @Override
-    public void cancelBooking(Long bookingId) {
-
-    }
-
-    @Override
-    public BookingDTO bookAppointment(AppointmentRequestDTO request) {
-        return null;
-    }
 }

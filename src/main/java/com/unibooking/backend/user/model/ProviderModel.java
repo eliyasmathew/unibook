@@ -1,20 +1,43 @@
-package com.unibooking.backend.user.dto;
+package com.unibooking.backend.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Entity
+@Table(name = "services")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class ProviderDTO {
+@Builder
+public class ProviderModel{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long providerId;
+
+    @Column(nullable = false)
     private String providerName; // Name of service (e.g., Haircut, Consultation)
+
     private String providerEmail;
+
+    @Column(nullable = false)
     private String providerPassword;
+
     private String providerPhone;
+
     private String providerBusinessName;
+
     private String providerCategory;
+
     private String providerAddress;
+
     private String providerLocation;
+
     private String providerDescription;
+
     private String providerCreatedAt;
+
+
+
+
 }

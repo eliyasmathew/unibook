@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     // Find user by email (used for login or profile fetch)
-    Optional<UserModel> findByEmail(String email);
+    Optional<UserModel> findByUserEmail(String userEmail);
 
     // You can add more custom query methods as needed
 }

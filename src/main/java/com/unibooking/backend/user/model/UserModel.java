@@ -3,26 +3,28 @@ package com.unibooking.backend.user.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")  // Optional: specify table name
 public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
-    private String name;
+    private String userName;
 
     @Column(unique = true, nullable = false)
-    private String email;
+    private String userEmail;
 
-    private String phone;
+    private String userPhone;
 
-    private String password;
+    private String userPassword;
 
-    private String role; // e.g., "USER", "PROVIDER", "ADMIN"
+    //private String role; // e.g., "USER", "PROVIDER", "ADMIN"
 
 }

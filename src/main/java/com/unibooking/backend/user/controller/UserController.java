@@ -1,12 +1,16 @@
 package com.unibooking.backend.user.controller;
 
-import com.unibooking.backend.user.dto.*;
+import com.unibooking.backend.Exception.UserAlreadyExistsException;
+import com.unibooking.backend.Exception.UserNotFoundException;
+import com.unibooking.backend.user.dto.UserDTO;
+import com.unibooking.backend.user.model.UserModel;
 import com.unibooking.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -17,37 +21,17 @@ public class UserController {
 
     // Get current user profile
     @GetMapping("/currentUser")
-    public ResponseEntity<UserDTO> getProfile() {
-        return ResponseEntity.ok(userService.getCurrentUserProfile());
+    public ResponseEntity<Optional<UserModel>> getProfile(@RequestParam String email) throws UserNotFoundException {
+        Optional<UserModel> user = userService.getCurrentUserProfile(email);
+        return ResponseEntity.ok(user);
+
     }
 
-    // Search for service providers by name, service, or location
-    @GetMapping("/providers/search")
-    public ResponseEntity<List<ProviderDTO>> searchProviders(@RequestParam("query") String query) {
-        return ResponseEntity.ok(userService.searchProviders(query));
-    }
-
-    // View a specific provider's details
-    @GetMapping("/providers/{providerId}")
-    public ResponseEntity<ProviderDTO> getProviderDetails(@PathVariable Long providerId) {
-        return ResponseEntity.ok(userService.getProviderDetails(providerId));
-    }
-
-    // View available slots for a provider
-    @GetMapping("/providers/{providerId}/slots")
-    public ResponseEntity<List<SlotDTO>> getAvailableSlots(@PathVariable Long providerId) {
-        return ResponseEntity.ok(userService.getAvailableSlots(providerId));
-    }
-
-    // Book an appointment with a provider for a slot
-    @PostMapping("/appointments/book")
-    public ResponseEntity<BookingDTO> bookAppointment(@RequestBody AppointmentRequestDTO request) {
-        return ResponseEntity.ok(userService.bookAppointment(request));
-    }
-
-    // View user's appointment bookings
-    @GetMapping("/bookings")
-    public ResponseEntity<List<BookingDTO>> getMyBookings() {
-        return ResponseEntity.ok(userService.getUserBookings());
+    // Register new user
+    @PostMapping("/register")
+    public ResponseEntity<Void> createNewUser(@RequestBody UserDTO userDTO) throws UserAlreadyExistsException {
+        userService.createUserProfile(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
+
