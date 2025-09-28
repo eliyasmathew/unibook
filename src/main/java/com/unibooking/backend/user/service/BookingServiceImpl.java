@@ -1,8 +1,7 @@
 package com.unibooking.backend.user.service;
 
-import com.unibooking.backend.user.dto.AppointmentRequestDTO;
+
 import com.unibooking.backend.user.dto.BookingDTO;
-import com.unibooking.backend.user.dto.ProviderDTO;
 import com.unibooking.backend.user.model.BookingModel;
 import com.unibooking.backend.user.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,50 +18,51 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingDTO createBooking(BookingDTO bookingDTO) {
         BookingModel booking = new BookingModel();
-        booking.setUserId(bookingDTO.getUserId());
+        booking.setBookingId(bookingDTO.getBookingId());
+        booking.setEmailId(bookingDTO.getEmailId());
         booking.setProviderId(bookingDTO.getProviderId());
         booking.setSlotId(bookingDTO.getSlotId());
         booking.setBookingDate(bookingDTO.getBookingDate());
-        booking.setStatus("CONFIRMED");
+        booking.setBookingStatus("CONFIRMED");
 
         BookingModel savedBooking = bookingRepository.save(booking);
 
         return new BookingDTO(
                 savedBooking.getBookingId(),
-                savedBooking.getUserId(),
+                savedBooking.getEmailId(),
                 savedBooking.getProviderId(),
                 savedBooking.getSlotId(),
                 savedBooking.getBookingDate(),
-                savedBooking.getStatus()
+                savedBooking.getBookingStatus()
         );
     }
 
     @Override
     public List<BookingDTO> getBookingsByUser(String emailId) {
-        return bookingRepository.findByUserId(emailId)
+        return bookingRepository.findByEmailId(emailId)
                 .stream()
                 .map(b -> new BookingDTO(
                         b.getBookingId(),
-                        b.getUserId(),
+                        b.getEmailId(),
                         b.getProviderId(),
                         b.getSlotId(),
                         b.getBookingDate(),
-                        b.getStatus()
+                        b.getBookingStatus()
                 ))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<BookingDTO> getBookingsByProvider(String emailId) {
-        return bookingRepository.findByProviderId(emailId)
+    public List<BookingDTO> getBookingsByProvider(Long providerId) {
+        return bookingRepository.findByProviderId(providerId)
                 .stream()
                 .map(b -> new BookingDTO(
                         b.getBookingId(),
-                        b.getUserId(),
+                        b.getEmailId(),
                         b.getProviderId(),
                         b.getSlotId(),
                         b.getBookingDate(),
-                        b.getStatus()
+                        b.getBookingStatus()
                 ))
                 .collect(Collectors.toList());
     }

@@ -3,6 +3,9 @@ package com.unibooking.backend.user.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "services")
 @Data
@@ -13,6 +16,7 @@ public class ProviderModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long providerId;
 
     @Column(nullable = false)
@@ -35,7 +39,7 @@ public class ProviderModel{
 
     private String providerDescription;
 
-    private String providerCreatedAt;
+    private LocalDateTime providerCreatedAt;
 
 
 

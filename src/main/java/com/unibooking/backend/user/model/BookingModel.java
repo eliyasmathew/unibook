@@ -18,8 +18,8 @@ public class BookingModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    @Column(nullable = false)
-    private Long userId;
+    @Column(nullable = false,name = "USER_EMAIL")
+    private String emailId;
 
     @Column(nullable = false)
     private Long providerId;
@@ -30,5 +30,5 @@ public class BookingModel {
     @Column(nullable = false)
     private LocalDateTime bookingDate;
 
-    private String status; // CONFIRMED, CANCELLED, COMPLETED
+    private String bookingStatus; // CONFIRMED, CANCELLED, COMPLETED
 }

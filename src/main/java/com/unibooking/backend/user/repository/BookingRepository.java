@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<BookingModel, Long> {
-    List<BookingModel> findByUserId(String emailId);
-    List<BookingModel> findByProviderId(String emailId);
+    List<BookingModel> findByEmailId(String emailId);
+    List<BookingModel> findByProviderId(Long providerId);
 }

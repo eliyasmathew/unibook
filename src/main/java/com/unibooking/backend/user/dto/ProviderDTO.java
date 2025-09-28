@@ -3,6 +3,8 @@ package com.unibooking.backend.user.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 public class ProviderDTO {
@@ -16,5 +18,5 @@ public class ProviderDTO {
     private String providerAddress;
     private String providerLocation;
     private String providerDescription;
-    private String providerCreatedAt;
+    private LocalDateTime providerCreatedAt;
 }

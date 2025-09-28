@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BookingDTO {
     private Long bookingId;
-    private Long userId;
+    private String emailId;
     private Long providerId;
     private Long slotId;
     private LocalDateTime bookingDate;
-    private String status;
+    private String bookingStatus;
 }

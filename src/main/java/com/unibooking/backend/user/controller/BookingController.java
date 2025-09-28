@@ -19,21 +19,21 @@ public class BookingController {
     private final BookingService bookingService;
 
     // 1. Create a new booking
-    @PostMapping
+    @PostMapping("/createBooking")
     public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) {
         BookingDTO createdBooking = bookingService.createBooking(bookingDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBooking);
     }
 
     // 2. Get all bookings for a specific user
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{emailId}")
     public ResponseEntity<List<BookingDTO>> getBookingsByUser(@PathVariable String emailId) {
         return ResponseEntity.ok(bookingService.getBookingsByUser(emailId));
     }
 
     // 3. Get all bookings for a specific provider
     @GetMapping("/provider/{providerId}")
-    public ResponseEntity<List<BookingDTO>> getBookingsByProvider(@PathVariable String emailId) {
-        return ResponseEntity.ok(bookingService.getBookingsByProvider(emailId));
+    public ResponseEntity<List<BookingDTO>> getBookingsByProvider(@PathVariable Long providerId) {
+        return ResponseEntity.ok(bookingService.getBookingsByProvider(providerId));
     }
 }

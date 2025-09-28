@@ -28,13 +28,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Boolean createUserProfile(UserDTO userDTO) throws UserAlreadyExistsException{
-        if(userRepository.findByUserEmail(userDTO.getEmail()).isPresent()){
-            throw new UserAlreadyExistsException("Email already registered: " + userDTO.getEmail());
+        if(userRepository.findByUserEmail(userDTO.getUserEmail()).isPresent()){
+            throw new UserAlreadyExistsException("Email already registered: " + userDTO.getUserEmail());
         }
         UserModel userModel = new UserModel();
-        userModel.setUserEmail(userDTO.getEmail());
-        userModel.setUserName(userDTO.getName());
-        userModel.setUserPhone(userDTO.getPhone());
+        userModel.setUserEmail(userDTO.getUserEmail());
+        userModel.setUserName(userDTO.getUserName());
+        userModel.setUserPhone(userDTO.getUserPhone());
+        userModel.setUserPassword(userDTO.getUserPassword());
         UserModel savedUser = userRepository.save(userModel);
         return true;
     }

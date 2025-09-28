@@ -24,7 +24,6 @@ public class UserController {
     public ResponseEntity<Optional<UserModel>> getProfile(@RequestParam String email) throws UserNotFoundException {
         Optional<UserModel> user = userService.getCurrentUserProfile(email);
         return ResponseEntity.ok(user);
-
     }
 
     // Register new user

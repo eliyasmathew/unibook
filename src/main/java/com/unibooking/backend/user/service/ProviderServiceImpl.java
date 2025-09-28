@@ -42,7 +42,7 @@ public class ProviderServiceImpl implements ProviderService {
                     .map(provider -> new ProviderDTO(
                             provider.getProviderId(),
                             provider.getProviderAddress(),
-                            provider.getProviderCreatedAt(),
+                            provider.getProviderName(),
                             provider.getProviderDescription(),
                             provider.getProviderEmail(),
                             provider.getProviderLocation(),
@@ -50,7 +50,7 @@ public class ProviderServiceImpl implements ProviderService {
                             provider.getProviderBusinessName(),
                             provider.getProviderPhone(),
                             provider.getProviderPassword(),
-                            provider.getProviderName()
+                            provider.getProviderCreatedAt()
                     )).orElseThrow(() -> new ProviderNotFoundException("Service not found"));
     }
 
