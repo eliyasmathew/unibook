@@ -11,50 +11,38 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    // Get user profile by email
-    @GetMapping("/currentUser")
-    public ResponseEntity<UserDTO> getProfile(@RequestParam String email) throws UserNotFoundException {
+    // Get currently logged-in user's profile (email from JWT)
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUserProfile() throws UserNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // this comes from JWT subject / UserDetails username
+
         UserDTO userDTO = userService.getUserProfile(email);
         return ResponseEntity.ok(userDTO);
     }
 
-    // Get all users
+
+    // Get all users (ADMIN only)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/allUsers")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-
-    // Register new user
-//    @PostMapping("/users/{id}")
-//    public ResponseEntity<Void> createNewUser(@RequestBody RegisterDTO registerDTO) throws UserAlreadyExistsException {
-//        userService.createUserProfile(registerDTO);
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
-
-
-    //User Login
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO){
-//        boolean isAuthenticated = userService.loginUser(loginDTO);
-//
-//        if (isAuthenticated) {
-//            return ResponseEntity.ok("Login successful!");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-//        }
-//    }
 
     // Update user details
     @PutMapping("/update")

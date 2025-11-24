@@ -39,12 +39,13 @@ public class UserServiceImpl implements UserService {
 
     // Helper method to convert Model → DTO
     public UserDTO convertToDTO(UserModel user) {
-        UserDTO dto = new UserDTO();
-        dto.setUserId(user.getUserId());
-        dto.setUserName(user.getUserName());
-        dto.setUserEmail(user.getUserEmail());
-        dto.setUserPhone(user.getUserPhone());
-        return dto;  //    Don’t include password for security!
+        UserDTO userDto = new UserDTO();
+        userDto.setUserId(user.getUserId());
+        userDto.setUserName(user.getUserName());
+        userDto.setUserEmail(user.getUserEmail());
+        userDto.setUserPhone(user.getUserPhone());
+        userDto.setRole(user.getRole());
+        return userDto;  //    Don’t include password for security!
     }
 
 
